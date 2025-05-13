@@ -1,0 +1,31 @@
+﻿@model Member
+<form method="post" enctype="multipart/form-data">
+  <div class="form-group">
+        <label asp-for="Title">Title</label>
+        <input asp-for="Title" type="text" class="form-control" placeholder="Enter Title">
+        <span asp-validation-for="Title"></span>
+  </div>
+    <div class="form-group">
+        <label asp-for="Subtitle">Subtitle</label>
+        <input asp-for="Subtitle" type="text" class="form-control" placeholder="Enter Subtitle">
+        <span asp-validation-for="Subtitle"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="FullName">FullName</label>
+        <input asp-for="FullName" type="text" class="form-control" placeholder="Enter FullName">
+        <span asp-validation-for="FullName"></span>
+  </div>
+    <div class="form-group">
+        <label asp-for="Position">Position</label>
+        <input asp-for="Position" type="text" class="form-control" placeholder="Enter Position">
+        <span asp-validation-for="Position"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PhotoUrl">Photo</label>
+        <input name="file" type="file" class="form-control" placeholder="Enter Photo">
+        <span asp-validation-for="PhotoUrl"></span>
+    </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

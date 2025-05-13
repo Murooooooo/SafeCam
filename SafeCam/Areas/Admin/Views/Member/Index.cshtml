@@ -1,0 +1,33 @@
+﻿@model List<Member>
+<a asp-action="Create" class="btn btn-success">Create</a>
+<table class="table table-dark table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Subtitle</th>
+            <th scope="col">FullName</th>
+            <th scope="col">Position</th>
+            <th scope="col">Actions</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+
+                <td>@item.Title</td>
+                <td>@item.Subtitle</td>
+                <td>@item.FullName</td>
+                <td>@item.Position</td>
+                <td><img width="200" src="@item.PhotoUrl"/></td>
+                <td>
+                    <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-warning">Update</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                </td>
+
+            </tr>
+        }
+       
+    </tbody>
+</table>
