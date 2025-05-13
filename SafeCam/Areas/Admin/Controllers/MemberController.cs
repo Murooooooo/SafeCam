@@ -7,7 +7,7 @@ using SafeCam.Models;
 namespace SafeCam.Areas.Admin.Controllers
 {
     [Area(nameof(Admin))]
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     public class MemberController : Controller
     {
         private readonly AppDbContext _context;

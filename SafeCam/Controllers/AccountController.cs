@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SafeCam.Helper;
 using SafeCam.Models;
 using SafeCam.ViewModels;
+using System.Threading.Tasks;
 
 namespace SafeCam.Controllers
 {
@@ -9,10 +11,12 @@ namespace SafeCam.Controllers
     {
         UserManager<AppUser> _userManager;
         SignInManager<AppUser> _signInManager;
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        RoleManager<IdentityRole> _roleManager;
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
         public IActionResult Register()
         {
@@ -28,8 +32,8 @@ namespace SafeCam.Controllers
             AppUser user = new()
             {
                 Name = registerVm.Name,
-                UserName= registerVm.UserName,
-                Email=registerVm.EmailAddress
+                UserName = registerVm.UserName,
+                Email = registerVm.EmailAddress
 
             };
             var result = await _userManager.CreateAsync(user, registerVm.Password);
@@ -41,9 +45,9 @@ namespace SafeCam.Controllers
                 }
                 return View();
             }
+            await _userManager.AddToRoleAsync(user, RoleEnum.Member.ToString());
 
-
-            return RedirectToAction("login","Account");
+            return RedirectToAction("login", "Account");
         }
         public IActionResult Login()
         {
@@ -57,7 +61,7 @@ namespace SafeCam.Controllers
                 return View();
             }
             AppUser user = await _userManager.FindByEmailAsync(loginVM.UserNameorEmailAddress);
-            if(user is null)
+            if (user is null)
             {
                 user = await _userManager.FindByNameAsync(loginVM.UserNameorEmailAddress);
                 if (user is null)
@@ -67,12 +71,7 @@ namespace SafeCam.Controllers
             }
             var result = await _signInManager.PasswordSignInAsync(user, loginVM.Password, loginVM.RememberMe, true);
 
-            if (result.Succeeded)
-            {
-                return RedirectToAction("Dashboard", "Admin");
-
-            }
-            return RedirectToAction("Index" , "Home" );
+            return RedirectToAction("Index", "Home");
 
         }
 
@@ -80,6 +79,15 @@ namespace SafeCam.Controllers
         {
             _signInManager.SignOutAsync();
             return RedirectToAction("index", "home");
+        }
+
+        public async Task<IActionResult> CreateRole()
+        {
+            foreach (var role in Enum.GetValues(typeof(RoleEnum)))
+            {
+                await _roleManager.CreateAsync(new IdentityRole { Name = role.ToString() });
+            }
+            return Content("role yarandi");
         }
     }
 }

@@ -17,7 +17,7 @@ namespace SafeCam
 
             builder.Services.AddDbContext<AppDbContext>(option =>
             {
-                option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                option.UseSqlServer(builder.Configuration.GetConnectionString("Msi"));
 
             });
             builder.Services.AddIdentity<AppUser,IdentityRole>()
